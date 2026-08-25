@@ -5,18 +5,25 @@ const PORT = process.env.PORT ;
 
 app.use(express.json())
 
-app.get('/search', (req, res) => {
-  const id= req.query.id;
-  //logs every request to the console with the method, url, and timestamp
-  console.log(id);
-  res.send(id); //pass next to handler
+//CUSTOM MIDDLEWARE
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  next();
+});
+
+app.post('/user', (req, res) => {
+  const {name, email}= req.body;
+  if(!name || !email ){
+    return res.status(400).json({error: 'name and email are required fields'});
+  }
+  res.send(`hello ${name}!`); //pass next to handler
 });
 
 app.get('/user/:id', (req, res ) => {
   //logs every request to the console with the method, url, and timestamp
-  const id= req.params.id;
+  const {id}= req.params;
   console.log(id);
-  res.send(id); //pass next to handler
+  res.send(`User ID ${id}`); //pass next to handler
 });
 
 //app.post('/echo', (req, res) => {
@@ -25,7 +32,7 @@ app.get('/user/:id', (req, res ) => {
 //});
 
 app.get('/', (req, res) => {
-  res.send('Hello express!')
+  res.send('My Week 2 API!')
 });
 
 app.listen(PORT, () => {
