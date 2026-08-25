@@ -26,10 +26,7 @@ app.get('/user/:id', (req, res ) => {
   res.send(`User ID ${id}`); //pass next to handler
 });
 
-//app.post('/echo', (req, res) => {
-  
-    //res.json({echoed: req.body});
-//});
+
 
 app.get('/', (req, res) => {
   res.send('My Week 2 API!')
